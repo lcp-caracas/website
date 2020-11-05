@@ -1,20 +1,12 @@
 <template>
   <v-row justify="center">
-    <v-dialog
-      v-model="dialog"
-      persistent
-      max-width="600px"
-    >
+    <v-dialog v-model="dialog" persistent max-width="600px">
       <template v-slot:activator="{ on, attrs }">
-        <v-btn
-          color="primary"
-          dark
-          v-bind="attrs"
-          v-on="on"
-        >
+        <v-btn color="primary" dark v-bind="attrs" v-on="on">
           Realizar Reserva
         </v-btn>
       </template>
+
       <v-card dark>
         <v-form ref="form" v-model="valid" lazy-validation>
           <v-card-title>
@@ -131,31 +123,29 @@ input[type=number] {
 </style>
 
 <script>
-import { db } from '~/services/firebase.js'
+import { AddReservations, TotalReservationsUpdateIncrement } from '~/services/firebase/index'
 import formConfig from './formConfig'
 
 export default {
   name: 'Form',
   data: () => ({
-    ...formConfig
+    ...formConfig,
   }),
+
+  computed: {
+    totalReservationsToSubmit() {
+      return this.companions + 1
+    }
+  },
 
   methods: {
     reserve () {
       if (this.$refs.form.validate()) {
-        db.collection('reservaciones').add({
-          name: this.name,
-          lastname: this.lastName,
-          email: this.email,
-          phone: this.phone,
-          companions: this.companions,
-        }).then(docRef => {
-          console.log("Document written with ID: ", docRef.id);
-        }).catch(error => {
-          console.error("Error adding document: ", error);
-        });
-        this.$refs.form.reset()
-        this.dialog = false
+        AddReservations(this.name, this.lastName, this.email, this.phone, this.companions);
+        TotalReservationsUpdateIncrement(this.totalReservationsToSubmit);
+        this.$refs.form.reset();
+        this.$emit('newReservation')
+        this.dialog = false;
       } else {
         console.log('falso')
       }

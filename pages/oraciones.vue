@@ -1,11 +1,11 @@
 <template>
   <div>
-    oracion page
+    oraciones page
   </div>
 </template>
 
 <script>
 export default {
-  name: 'Oracion'
+  name: 'Oraciones'
 }
 </script>

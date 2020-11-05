@@ -4,11 +4,11 @@ export default {
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
     titleTemplate: '%s - lcp-caracas',
-    title: 'lcp-caracas',
+    title: 'LCP - La Casa de mi Padre',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' }
+      { hid: 'La Casa de mi Padre', name: 'La Casa de mi Padre', content: 'Iglesia cristiana la casa de mi padre Caracas - Venezuela' }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
