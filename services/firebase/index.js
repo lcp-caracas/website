@@ -16,13 +16,13 @@ const firebaseConfig = {
 const db = firebase.firestore()
 const FieldValue = firebase.firestore.FieldValue
 
-function TotalReservationsUpdateIncrement(total) {
+const TotalReservationsUpdateIncrement = async (total) => {
   db.collection('reservaciones').doc('totalReservaciones').update({
     total: FieldValue.increment(total)
-  })
+  }).then(() => console.log('Valor incrementado a:', total))
 }
 
-function AddReservations(name, lastName, email, phone, companions) {
+const AddReservations = async (name, lastName, email, phone, companions, totalReservationsToSubmit) => {
   db.collection('reservaciones').add({
     name: name,
     lastname: lastName,
@@ -31,11 +31,12 @@ function AddReservations(name, lastName, email, phone, companions) {
     companions: companions,
     createdAt: firebase.firestore.Timestamp.fromDate(new Date()),
   }).then(docRef => {
-    return console.log("Document written with ID: ", docRef.id);
+    TotalReservationsUpdateIncrement(totalReservationsToSubmit)
+    return console.log("Documento escrito con el id: ", docRef.id)
   }).catch(error => {
     return console.error("Error adding document: ", error);
   });
 }
 
-export { db, AddReservations, TotalReservationsUpdateIncrement }
+export { db, AddReservations }
 

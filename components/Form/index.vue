@@ -78,7 +78,7 @@
               Cancelar
             </v-btn>
 
-            <v-btn color="blue darken-1" text @click="reserve">
+            <v-btn color="blue darken-1" text @click="reserve()">
               Reservar
             </v-btn>
           </v-card-actions>
@@ -141,13 +141,20 @@ export default {
   methods: {
     reserve () {
       if (this.$refs.form.validate()) {
-        AddReservations(this.name, this.lastName, this.email, this.phone, this.companions);
-        TotalReservationsUpdateIncrement(this.totalReservationsToSubmit);
+        AddReservations(
+          this.name,
+          this.lastName,
+          this.email,
+          this.phone,
+          this.companions,
+          this.totalReservationsToSubmit
+        )
+        .then(() => this.$emit('new-reservation'))
+
         this.$refs.form.reset();
-        this.$emit('newReservation')
         this.dialog = false;
       } else {
-        console.log('falso')
+        console.log('Error en el formulario')
       }
     },
 

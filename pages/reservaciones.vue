@@ -11,7 +11,7 @@
         </v-col>
       </v-row>
 
-      <Form v-on:newReservation="countReservations" />
+      <Form v-if="totalReservations < 100" v-on:new-reservation="countReservations" />
       <UserReservationsTable :loading="loadingReservations" :usersReservations="usersReservations" />
     </v-container>
   </section>
@@ -26,63 +26,6 @@ export default {
   components: { Form },
   data: () => ({
     usersReservations: [],
-
-    // usersReservations: [
-    //   {
-    //     companions: 3,
-    //     email: "kevin@gmail.com",
-    //     lastname: "blanco",
-    //     name: "Kevin",
-    //     phone: "04125544458",
-    //     createdAtSeconds: 1604581271,
-    //     createdAt: '5/10/2020'
-    //   },
-    //   {
-    //     companions: 5,
-    //     email: "yrving@gmail.com",
-    //     lastname: "blanco",
-    //     name: "yrving",
-    //     phone: "04125544458",
-    //     createdAtSeconds: 1604579271,
-    //     createdAt: '12/09/2020'
-    //   },
-    //   {
-    //     companions: 5,
-    //     email: "kevin@gmail.com",
-    //     lastname: "Pena",
-    //     name: "Mario",
-    //     phone: "04125544458",
-    //     createdAtSeconds: 1604691271,
-    //     createdAt: '13/09/2020'
-    //   },
-    //   {
-    //     companions: 3,
-    //     email: "grismeda@gmail.com",
-    //     lastname: "blanco",
-    //     name: "Grismeda",
-    //     phone: "04125544458",
-    //     createdAtSeconds: 1604574871,
-    //     createdAt: '14/09/2020'
-    //   },
-    //   {
-    //     companions: 1,
-    //     email: "genesis@gmail.com",
-    //     lastname: "blanco",
-    //     name: "Genesis",
-    //     phone: "04125544458",
-    //     createdAtSeconds: 1604576371,
-    //     createdAt: '15/09/2020'
-    //   },
-    //   {
-    //     companions: 6,
-    //     email: "Valeria@gmail.com",
-    //     lastname: "blanco",
-    //     name: "Valeria",
-    //     phone: "04125544458",
-    //     createdAtSeconds: 16045748781,
-    //     createdAt: '16/09/2020'
-    //   },
-    // ],
     totalReservations: 0,
     loadingReservations: true
   }),
@@ -102,28 +45,32 @@ export default {
     countReservations() {
       this.usersReservations.splice(0)
       this.loadingReservations = true
+      this.totalReservations = 0
 
-      db.collection('reservaciones').get()
-        .then(reservations => {
-          reservations.forEach(doc => {
-            if (doc.id === 'totalReservaciones') {
-              this.totalReservations = doc.data().total
-            }
-            else {
-              const id = doc.id
-              const data = doc.data()
-              const { createdAt } = data
-              const createdAtSeconds = createdAt.seconds
-              const date = new Date(createdAt.seconds * 1000)
-              const normalizedCreatedAt = new Intl.DateTimeFormat('es-VE').format(date)
-              const reservation = { ...data, id, createdAt: normalizedCreatedAt, createdAtSeconds }
+      setTimeout(() => {
+        db.collection('reservaciones').get()
+          .then(reservations => {
+            reservations.forEach(doc => {
+              if (doc.id !== 'totalReservaciones') {
+                const id = doc.id
+                const data = doc.data()
+                const { createdAt } = data
+                const createdAtSeconds = createdAt.seconds
+                const date = new Date(createdAt.seconds * 1000)
+                const normalizedCreatedAt = new Intl.DateTimeFormat('es-VE').format(date)
+                const reservation = { ...data, id, createdAt: normalizedCreatedAt, createdAtSeconds }
 
-              this.usersReservations.push(reservation)
-            }
+                this.usersReservations.push(reservation)
+              }
+              else {
+                console.log(doc.data().total)
+                this.totalReservations = doc.data().total
+              }
+            })
           })
-        })
         .then(() => this.loadingReservations = false)
         .catch(err => console.error(err))
+      }, 1000);
     },
   },
 }

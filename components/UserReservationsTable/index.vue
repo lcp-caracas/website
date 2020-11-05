@@ -18,7 +18,6 @@
       :item-key="usersReservations.lenght"
       class="elevation-1"
       :loading="loading"
-      :sort-by="'createdAtSeconds'"
       :sort-desc="true"
       :footer-props="{
         showFirstLastPage: true,
