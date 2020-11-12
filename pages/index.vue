@@ -16,6 +16,6 @@ import Worship from '~/components/PageSections/Home/Worship'
 
 export default {
   name: 'Home',
-  components: { Header, Main, Pray, Services, Worship }
+  components: { Header, Main, Pray, Services, Worship },
 }
 </script>

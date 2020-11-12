@@ -1,18 +1,11 @@
 <template>
   <v-row justify="center">
     <v-dialog v-model="dialog" persistent max-width="600px">
-      <template v-slot:activator="{ on, attrs }">
-        <v-btn color="primary" dark v-bind="attrs" v-on="on">
-          Realizar Reserva
-        </v-btn>
-      </template>
-
       <v-card dark>
         <v-form ref="form" v-model="valid" lazy-validation>
           <v-card-title>
-            <span class="headline">Reserva</span>
+            <span class="headline">Reserva {{ scheduleService }} servicio</span>
           </v-card-title>
-
           <v-card-text>
             <v-container>
               <v-row>
@@ -59,14 +52,25 @@
                 </v-col>
 
                 <v-col cols="12">
-                  <v-select
-                    :items="['Sin Acompañante', 1, 2, 3, 4, 5, 6]"
-                    prepend-icon="mdi-account-group"
-                    v-model="companions"
-                    label="Acompañantes"
-                    :rules="companionsRules"
-                    required
-                  ></v-select>
+                  <v-text-field
+                    prepend-inner-icon="mdi-account-group"
+                    :value="companionsComputed"
+                    filled
+                    readonly
+                    label="Asientos reservados"
+                    shaped
+                  ></v-text-field>
+                </v-col>
+
+                <v-col cols="12">
+                  <v-text-field
+                    prepend-inner-icon="mdi-ticket"
+                    :value="asientosSeleccionados"
+                    filled
+                    readonly
+                    label="Tickets de Asientos"
+                    shaped
+                  ></v-text-field>
                 </v-col>
               </v-row>
             </v-container>
@@ -128,39 +132,64 @@ import formConfig from './formConfig'
 
 export default {
   name: 'Form',
+  props: {
+    dialog: {
+      type: Boolean,
+      required: true,
+      default: false
+    },
+    asientosSeleccionados: {
+      type: Array,
+      requried: true,
+      default: []
+    },
+    scheduleService: {
+      type: String,
+      required: true,
+      default: 'primer'
+    }
+  },
   data: () => ({
     ...formConfig,
   }),
 
   computed: {
     totalReservationsToSubmit() {
-      return this.companions + 1
-    }
+      return this.asientosSeleccionados.length + 1
+    },
+
+    companionsComputed() {
+      return this.asientosSeleccionados.length
+    },
   },
 
   methods: {
     reserve () {
+      const ticketsSeats = this.asientosSeleccionados
+
       if (this.$refs.form.validate()) {
         AddReservations(
           this.name,
           this.lastName,
           this.email,
           this.phone,
-          this.companions,
-          this.totalReservationsToSubmit
+          this.companionsComputed,
+          ticketsSeats,
+          this.scheduleService,
+          this.asientosSeleccionados.length
         )
         .then(() => this.$emit('new-reservation'))
 
         this.$refs.form.reset();
-        this.dialog = false;
+        this.$emit('close-dialog')
+        this.$router.push({ path: '/' });
       } else {
         console.log('Error en el formulario')
       }
     },
 
     cancel () {
-      this.$refs.form.reset()
-      this.dialog = false
+      this.$emit('close-dialog')
     },
   },
 }

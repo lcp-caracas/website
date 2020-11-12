@@ -15,7 +15,7 @@
       :headers="headers"
       :items="usersReservations"
       :search="search"
-      :item-key="usersReservations.lenght"
+      :item-key="usersReservations.id"
       class="elevation-1"
       :loading="loading"
       :sort-desc="true"
@@ -48,8 +48,10 @@
       headers: [
         { text: 'Nombre', align: 'start', sortable: false, value: 'name' },
         { text: 'Apellido', sortable: false, value: 'lastname' },
-        { text: 'N. Acompañantes', sortable: false, value: 'companions' },
+        { text: 'N. Acompañantes', sortable: false, value: 'reservedSeats' },
         { text: 'Reservación solicitada', value: 'createdAt' },
+        { text: 'N. Asiento', sortable: false, value: 'ticketsSeats' },
+        { text: 'Horario', value: 'scheduleService' },
       ],
     }),
   }

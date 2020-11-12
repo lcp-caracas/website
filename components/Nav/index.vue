@@ -32,7 +32,7 @@
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style>
 .nuxtRoute {
   text-decoration: none;
   margin: 0 5px;

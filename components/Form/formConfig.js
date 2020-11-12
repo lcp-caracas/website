@@ -1,7 +1,7 @@
 export default {
-  dialog: false,
+  // dialog: false,
   valid: true,
-  companions: null,
+  // companions: null,
   companionsRules: [
     v => !!v || 'Debe responder este campo',
   ],

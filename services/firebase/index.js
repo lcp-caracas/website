@@ -19,16 +19,24 @@ const FieldValue = firebase.firestore.FieldValue
 const TotalReservationsUpdateIncrement = async (total) => {
   db.collection('reservaciones').doc('totalReservaciones').update({
     total: FieldValue.increment(total)
-  }).then(() => console.log('Valor incrementado a:', total))
+  }).then(() => console.log('Reservaciones total sumando: ', total, 'reservaciones'))
 }
 
-const AddReservations = async (name, lastName, email, phone, companions, totalReservationsToSubmit) => {
+const AddReservations = async (
+  name, lastName,
+  email, phone,
+  reservedSeats, ticketsSeats,
+  scheduleService,
+  totalReservationsToSubmit
+) => {
   db.collection('reservaciones').add({
     name: name,
     lastname: lastName,
     email: email,
     phone: phone,
-    companions: companions,
+    reservedSeats: reservedSeats,
+    ticketsSeats: ticketsSeats,
+    scheduleService: scheduleService,
     createdAt: firebase.firestore.Timestamp.fromDate(new Date()),
   }).then(docRef => {
     TotalReservationsUpdateIncrement(totalReservationsToSubmit)
