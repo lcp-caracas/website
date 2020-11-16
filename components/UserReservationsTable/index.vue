@@ -12,10 +12,13 @@
       ></v-text-field>
     </v-card-title>
     <v-data-table
+      disable-sort
       :headers="headers"
-      :items="usersReservations"
+      :items="usersReservationsComputed"
       :search="search"
-      :item-key="usersReservations.id"
+      :item-key="usersReservationsComputed.id"
+      no-results-text="Sin Resultados"
+      no-data-text="Sin Resultados"
       class="elevation-1"
       :loading="loading"
       :sort-desc="true"
@@ -28,6 +31,12 @@
     ></v-data-table>
   </v-card>
 </template>
+
+<style>
+thead.v-data-table-header.v-data-table-header-mobile {
+  display: none;
+}
+</style>
 
 <script>
   export default {
@@ -54,5 +63,16 @@
         { text: 'Horario', value: 'scheduleService' },
       ],
     }),
+
+    computed: {
+      usersReservationsComputed () {
+        const userComputed = []
+        this.usersReservations.map(user => {
+          user.scheduleService = `${user.scheduleService} servicio`
+          userComputed.push( user )
+        })
+        return userComputed
+      }
+    },
   }
 </script>

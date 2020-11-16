@@ -1,6 +1,10 @@
 <template>
   <v-container fluid>
-    <v-btn @click="reserve">Reservar {{ scheduleService }}</v-btn>
+    <v-row>
+      <v-col cols="12" class="d-flex flex-wrap justify-center items-center">
+        <v-btn color="blue" @click="reserve">Reservar {{ scheduleService }} servicio</v-btn>
+      </v-col>
+    </v-row>
 
     <Form
       :scheduleService="scheduleService"
@@ -11,10 +15,10 @@
     />
 
     <v-row align="center" justify="center">
-      <v-col class="d-flex justify-center items-center" cols="2" v-for="(chair, index) in 101" :key="index">
+      <v-col class="d-flex justify-center items-center" cols="2" v-for="(chair, index) in 100" :key="index">
         <Chair
           :scheduleService="scheduleService"
-          :id="index"
+          :id="index+1"
           v-on:chair-selected="chairSelected"
           :usersReservations="usersReservations"
           :asientosReservados="asientosReservados"
@@ -22,7 +26,11 @@
       </v-col>
     </v-row>
 
-    <v-btn @click="reserve">Reservar {{ scheduleService }}</v-btn>
+    <v-row>
+      <v-col cols="12" class="d-flex flex-wrap justify-center items-center">
+        <v-btn color="blue" @click="reserve">Reservar {{ scheduleService }} servicio</v-btn>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 

@@ -2,7 +2,7 @@
   <section>
     <v-container>
       <v-row justify="center" align-content="center">
-        <v-col cols="12" v-show="totalReservations < 100" class="d-flex justify-center">
+        <v-col cols="12" v-show="totalReservations < 200" class="d-flex justify-center">
           <h2 style="text-align:center;">Reservaciones disponibles {{ reservationsAvailable }}</h2>
         </v-col>
 
@@ -12,18 +12,15 @@
           <ChairDemo title="Seleccionado" asientoColor="#5691ff" respaldoColor="#31569b" />
         </v-col>
 
-        <v-col cols="12" v-show="totalReservations === 100" class="d=flex justify-center">
+        <v-col cols="12" v-show="totalReservations === 200" class="d=flex justify-center">
           <h2 style="text-align:center;">Sin Cupos</h2>
         </v-col>
       </v-row>
 
-      <v-row>
-        <v-col cols="6" class="d-flex justify-center">
-          <v-btn @click="selectFirstService">Primer Servicio</v-btn>
-        </v-col>
-
-        <v-col cols="6">
-          <v-btn @click="selectSecondService">Segundo Servicio</v-btn>
+      <v-row justify="center" align-content="center">
+        <v-col class="d-flex align-center flex-wrap justify-center" cols="12">
+          <v-btn class="mx-4 my-4" @click="selectFirstService">Primer Servicio</v-btn>
+          <v-btn class="mx-4 my-4" @click="selectSecondService">Segundo Servicio</v-btn>
         </v-col>
       </v-row>
 
@@ -37,7 +34,10 @@
         scheduleService="segundo"
         :usersReservations="usersReservationsSecondService"
       />
-      <UserReservationsTable :loading="loadingReservations" :usersReservations="usersReservations" />
+      <UserReservationsTable
+        :loading="loadingReservations"
+        :usersReservations="usersReservations"
+      />
     </v-container>
   </section>
 </template>
@@ -136,7 +136,7 @@ export default {
 
   computed: {
     reservationsAvailable() {
-      const limitReservations = 100
+      const limitReservations = 200
       return limitReservations - this.totalReservations
     },
   },

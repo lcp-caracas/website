@@ -182,7 +182,7 @@ export default {
 
         this.$refs.form.reset();
         this.$emit('close-dialog')
-        this.$router.push({ path: '/' });
+        this.$router.push({ path: '/reservacion-exitosa' });
       } else {
         console.log('Error en el formulario')
       }
