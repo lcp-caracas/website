@@ -3,7 +3,10 @@ export default {
   valid: true,
   // companions: null,
   companionsRules: [
-    v => !!v || 'Debe responder este campo',
+    v => !!v || 'Debe seleccionar algun asiento',
+  ],
+  asientosRules: [
+    v => !!v || 'Debe seleccionar algun asiento',
   ],
   phone: '',
   phoneRules: [

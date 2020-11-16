@@ -55,6 +55,7 @@
                   <v-text-field
                     prepend-inner-icon="mdi-account-group"
                     :value="companionsComputed"
+                    :rules="companionsRules"
                     filled
                     readonly
                     label="Asientos reservados"
@@ -66,6 +67,7 @@
                   <v-text-field
                     prepend-inner-icon="mdi-ticket"
                     :value="asientosSeleccionados"
+                    :rules="asientosRules"
                     filled
                     readonly
                     label="Tickets de Asientos"
