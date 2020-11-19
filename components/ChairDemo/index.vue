@@ -1,5 +1,5 @@
 <template>
-  <div class="flex-column text-center mx-4">
+  <div style="width:102px" class="flex-column items-center text-center mx-4">
     <svg
       width="41"
       height="40"
