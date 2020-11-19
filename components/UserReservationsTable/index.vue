@@ -57,7 +57,7 @@ thead.v-data-table-header.v-data-table-header-mobile {
       headers: [
         { text: 'Nombre', align: 'start', sortable: false, value: 'name' },
         { text: 'Apellido', sortable: false, value: 'lastname' },
-        { text: 'N. Acompañantes', sortable: false, value: 'reservedSeats' },
+        { text: 'Total de asientos', sortable: false, value: 'reservedSeats' },
         { text: 'Reservación solicitada', value: 'createdAt' },
         { text: 'N. Asiento', sortable: false, value: 'ticketsSeats' },
         { text: 'Horario', value: 'scheduleService' },
