@@ -14,12 +14,23 @@ const firebaseConfig = {
 
 !firebase.apps.length && firebase.initializeApp(firebaseConfig)
 const db = firebase.firestore()
+const totalReservationsFirstService = db.collection('reservaciones').doc('totalReservationsFirstService')
+const totalReservationsSecondService = db.collection('reservaciones').doc('totalReservationsSecondService')
 const FieldValue = firebase.firestore.FieldValue
 
-const TotalReservationsUpdateIncrement = async (total) => {
-  db.collection('reservaciones').doc('totalReservaciones').update({
-    total: FieldValue.increment(total)
-  }).then(() => console.log('Reservaciones total sumando: ', total, 'reservaciones'))
+export const TotalReservationsUpdateIncrement = (sheduleService, total) => {
+  if (sheduleService === '1er Servicio - 9:00am') {
+    totalReservationsFirstService
+      .update({
+        total: FieldValue.increment(total)
+      }).then(() => console.log('Reservaciones total sumando: ', total, 'reservaciones'))
+
+  } else if (sheduleService === '2do Servicio - 11:00am') {
+    totalReservationsSecondService
+      .update({
+        total: FieldValue.increment(total)
+      }).then(() => console.log('Reservaciones total sumando: ', total, 'reservaciones'))
+  }
 }
 
 const AddReservations = async (

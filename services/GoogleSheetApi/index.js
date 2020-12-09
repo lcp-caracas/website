@@ -1,21 +1,17 @@
+import { TotalReservationsUpdateIncrement } from "../firebase"
+
 const BASE_URL = 'https://v1.nocodeapi.com/scriptkev/google_sheets/eMzWYBNyTGeqgXlX'
 const TabSheetId = 'Reservaciones-13-12-2020'
-
-const fetchPostConfig = {
-  method: "post",
-  body: JSON.stringify([["NoCodeAPI", "hello@nocodeapi.com"], ["Mohd Danish", "mddanishyusuf@gmail.com"]]),
-  headers: {
-    "Content-Type": "application/json"
-  }
-}
 
 export const AddReservation = async reservation => {
   try {
     const res = await fetch(`${BASE_URL}?tabId=${TabSheetId}`, {
+      mode: 'cors',
       method: "post",
-      body: reservation,
+      body: JSON.stringify(reservation),
       headers: {
         "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*"
       }
     })
 
@@ -24,6 +20,11 @@ export const AddReservation = async reservation => {
   } catch (err) {
     console.error(err)
   }
+
+  const [row1] = reservation
+  const SeatsReservations = row1[4]
+
+  TotalReservationsUpdateIncrement(SeatsReservations)
 }
 
 // async function callingFn() {

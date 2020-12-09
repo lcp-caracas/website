@@ -1,6 +1,6 @@
 <template>
   <v-row justify="center">
-    <v-card dark min-width="300px" >
+    <v-card light min-width="300px" >
       <v-form ref="form" v-model="valid" lazy-validation>
         <v-card-title>
           <span class="headline">Reserva servicio</span>
@@ -64,28 +64,37 @@
                   shaped
                   label="Reservar Asientos"
                   v-model="reservedSeating"
+                  light
                 ></v-select>
               </v-col>
 
               <v-col cols='12'>
                 <v-radio-group v-model="scheduleService" mandatory>
                     <v-row class="my-2">
-                      <v-radio label="1er Servicio" value="1er Servicio 9:00am" />
+                      <v-radio
+                        :disabled="totalReservationsFirstService === 100 ? true : false "
+                        label="1er Servicio"
+                        value="1er Servicio - 9:00am"
+                      />
                       <v-chip class="mx-4" color="indigo" text-color="white">
                         <v-avatar left>
                           <v-icon>mdi-alarm</v-icon>
                         </v-avatar>
-                        9:00am
+                        9:00am a 10:00am
                       </v-chip>
                     </v-row>
 
                     <v-row class="my-2">
-                      <v-radio label="2do Servicio" value="2do Servicio 11:00am" />
+                      <v-radio
+                        :disabled="totalReservationsSecondService === 100 ? true : false "
+                        label="2do Servicio"
+                        value="2do Servicio - 11:00am"
+                      />
                       <v-chip class="mx-4" color="indigo" text-color="white">
                         <v-avatar left>
                           <v-icon>mdi-alarm</v-icon>
                         </v-avatar>
-                        11:00am
+                        11:00am a 12:00pm
                       </v-chip>
                     </v-row>
                 </v-radio-group>
@@ -142,10 +151,19 @@ input[type=number] {
 <script>
 import { AddReservation } from '~/services/GoogleSheetApi/index'
 import { TotalReservationsUpdateIncrement } from '~/services/firebase/index'
+import { db } from '~/services/firebase/index'
 import formConfig from './formConfig'
 
 export default {
   name: 'Form',
+  props: {
+    totalReservationsFirstService: {
+      type: Number,
+    },
+    totalReservationsSecondService: {
+      type: Number,
+    }
+  },
   data: () => ({
     ...formConfig,
     reservedSeating: 0,
@@ -156,20 +174,25 @@ export default {
   methods: {
     reserve () {
       if (this.$refs.form.validate()) {
+        const date = new Date();
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        const dateLocal = date.toLocaleDateString("es-ES", options)
+
         AddReservation([[
-          this.name,
-          this.lastName,
-          this.email,
+          dateLocal,
+          `${this.name} ${this.lastName}`,
           this.phone,
+          this.email,
+          this.reservedSeating,
           this.scheduleService,
-        ]])
+        ]]).then(() => TotalReservationsUpdateIncrement(this.scheduleService, this.reservedSeating))
 
         this.$refs.form.reset();
         this.$router.push({ path: '/reservacion-exitosa' });
       } else {
         console.log('Error en el formulario')
       }
-    },
+    }
   },
 }
 </script>

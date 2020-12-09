@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app light>
     <Nav />
     <v-main>
       <nuxt />
@@ -12,6 +12,6 @@ import Nav from '~/components/Nav'
 
 export default {
   name: 'LayoutDefault',
-  components: { Nav }
+  components: { Nav },
 }
 </script>
