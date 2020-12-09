@@ -10,7 +10,8 @@ export default {
   ],
   phone: '',
   phoneRules: [
-    v => (v && v.length <= 20) || 'El numero de telefono no puede tener mas 20 caracteres',
+    v => !!v || 'El telefono es requerido',
+    v => (v && v.length <= 11) || 'El numero de telefono no puede tener mas 11 caracteres',
   ],
   name: '',
   nameRules: [
