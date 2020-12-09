@@ -2,11 +2,30 @@
   <v-row justify="center">
     <v-card light min-width="300px" >
       <v-form ref="form" v-model="valid" lazy-validation>
+        <div class="bannerBgForm"></div>
+
         <v-card-title>
-          <span class="headline">Reserva servicio</span>
+          <span class="headline">Reservar Asientos</span>
         </v-card-title>
-        <v-card-text>
-          <v-container>
+
+        <v-card-subtitle class="pb-0">
+          <p>
+            ¡Hola! Bienvenido(a) a nuestro Formulario de Reservación.
+            <br />
+            <br />
+            En 5 pasos sencillos puedes hacer tu reservación y disfrutar la experiencia de celebrar al Señor en Su Casa. 
+            Por los momentos, es solo para personas sanas con edades comprendidas entre 12 y 65 años.
+            <br />
+            <br />
+            En LCP queremos servirte más y mejor.
+            <br />
+            <br />
+            Dios te bendiga.
+          </p>
+        </v-card-subtitle>
+
+        <v-card-text class="pb-0">
+          <v-container class="py-0">
             <v-row>
               <v-col cols="12" sm="12" md="6" xs="12">
                 <v-text-field
@@ -72,7 +91,7 @@
                 <v-radio-group v-model="scheduleService" mandatory>
                     <v-row class="my-2">
                       <v-radio
-                        :disabled="totalReservationsFirstService === 100 ? true : false "
+                        :disabled="totalReservationsFirstService === 100 ? true : false"
                         label="1er Servicio"
                         value="1er Servicio - 9:00am"
                       />
@@ -86,7 +105,7 @@
 
                     <v-row class="my-2">
                       <v-radio
-                        :disabled="totalReservationsSecondService === 100 ? true : false "
+                        :disabled="totalReservationsSecondService === 100 ? true : false"
                         label="2do Servicio"
                         value="2do Servicio - 11:00am"
                       />
@@ -103,9 +122,14 @@
           </v-container>
         </v-card-text>
 
-        <v-card-actions>
-          <v-spacer />
-          <v-btn color="blue darken-1" text @click="reserve()">
+        <v-card-actions class="flex justify-center mb-4">
+          <v-btn
+            color="blue darken-1"
+            @click="reserve()"
+            :loading="loading"
+            :disabled="loading"
+          >
+            <v-icon left>mdi-chair-rolling</v-icon>
             Reservar
           </v-btn>
         </v-card-actions>
@@ -146,6 +170,17 @@ input::-webkit-inner-spin-button {
 input[type=number] {
   -moz-appearance: textfield;
 }
+
+.bannerBgForm {
+  background-image: url('../../static/img/banner-form.jpg');
+  background-size: cover;
+  background-position: center right;
+  max-height: 22.5vw;
+  max-width: 100%;
+  height: 160px;
+  width: 640px;
+  border-radius: 10px;
+}
 </style>
 
 <script>
@@ -169,6 +204,7 @@ export default {
     reservedSeating: 0,
     seats: [1,2,3,4,5,6,7,8,9,10],
     scheduleService: '',
+    loading: false
   }),
 
   methods: {
@@ -177,6 +213,7 @@ export default {
         const date = new Date();
         const options = { year: 'numeric', month: 'long', day: 'numeric' };
         const dateLocal = date.toLocaleDateString("es-ES", options)
+        this.loading = true
 
         AddReservation([[
           dateLocal,
@@ -185,8 +222,9 @@ export default {
           this.email,
           this.reservedSeating,
           this.scheduleService,
-        ]]).then(() => TotalReservationsUpdateIncrement(this.scheduleService, this.reservedSeating))
+        ]]).then(TotalReservationsUpdateIncrement(this.scheduleService, this.reservedSeating))
 
+        this.loading = false
         this.$refs.form.reset();
         this.$router.push({ path: '/reservacion-exitosa' });
       } else {

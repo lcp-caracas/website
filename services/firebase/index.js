@@ -19,6 +19,8 @@ const totalReservationsSecondService = db.collection('reservaciones').doc('total
 const FieldValue = firebase.firestore.FieldValue
 
 export const TotalReservationsUpdateIncrement = (sheduleService, total) => {
+  console.log('Total Reservations Update Increment', sheduleService, total)
+
   if (sheduleService === '1er Servicio - 9:00am') {
     totalReservationsFirstService
       .update({
