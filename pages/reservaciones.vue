@@ -2,7 +2,7 @@
   <section class="reservationBg">
     <v-container fluid>
       <v-row justify="center" align-content="center">
-        <v-col cols="12" v-show="totalReservations <= 200" class="reservations d-flex flex-column justify-center">
+        <!-- <v-col cols="12" v-show="totalReservations <= 200" class="reservations d-flex flex-column justify-center">
           <h2 style="text-align:center;">Reservaciones disponibles</h2>
           <h4 style="text-align:center;">
             Primer servicio: 
@@ -16,10 +16,11 @@
                 totalReservationsSecondService === 100 ? 'Sin Cupos' : reservationsSecondServiceAvailable
               }}
           </h4>
-        </v-col>
+        </v-col> -->
 
         <v-col cols='7' v-if="totalReservations !== 200">
           <Form
+            v-on:form-success="formSuccess"
             :totalReservationsSecondService="totalReservationsSecondService"
             :totalReservationsFirstService="totalReservationsFirstService"
           />
@@ -92,8 +93,10 @@ export default {
           })
         })
     },
+
+    formSuccess () {
+      console.log('form success')
+    }
   },
 }
-// lcpcaracas
-// redlcp*2020#CCS
 </script>
