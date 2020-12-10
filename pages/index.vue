@@ -15,9 +15,17 @@
         <section class="d-flex flex-column align-center align-self-center">
           <span>siguenos en:</span>
           <div class="d-flex justify-center align-center">
-            <v-icon size="35" class="mx-2">mdi-instagram</v-icon>
-            <v-icon size="35" class="mx-2">mdi-facebook</v-icon>
-            <v-icon size="35" class="mx-2">mdi-youtube</v-icon>
+            <a href="https://www.instagram.com/lcpcaracas" target="_blank" rel="noopener noreferrer" class="mx-2">
+              <v-icon size="35">mdi-instagram</v-icon>
+            </a>
+
+            <a href="https://www.facebook.com/lacasademipadrevenezuela" target="_blank" rel="noopener noreferrer" class="mx-2">
+              <v-icon size="35">mdi-facebook</v-icon>
+            </a>
+
+            <a href="https://www.youtube.com/channel/UCtttlnW0skxAug4MOo7CaeQ" target="_blank" rel="noopener noreferrer" class="mx-2">
+              <v-icon size="35">mdi-youtube</v-icon>
+            </a>
             <span>LCP-CARACAS</span>
           </div>
           <p class="text-center mt-4">
@@ -59,6 +67,16 @@
   .main__title span {
     font-size: 30px;
     text-transform: uppercase;
+  }
+
+  a {
+    text-decoration: none;
+    width: min-content;
+    height: min-content;
+  }
+
+  a > i:hover {
+    color:#ffc000;
   }
 
   @media screen and (min-width: 320px) and (max-width: 500px) {
