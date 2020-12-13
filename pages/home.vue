@@ -1,4 +1,5 @@
 <template>
+  <!-- Mario estuvo aquí. -->
   <div>
     <Header />
     <Main />
