@@ -15,6 +15,8 @@ import Pray from '~/components/PageSections/Home/Pray'
 import Services from '~/components/PageSections/Home/Services'
 import Worship from '~/components/PageSections/Home/Worship'
 
+// testing new Integration with lcp-caracas/website
+
 export default {
   name: 'Home',
   components: { Nav, Header, Main, Pray, Services, Worship },
